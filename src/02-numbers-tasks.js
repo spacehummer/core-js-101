@@ -109,7 +109,7 @@ function getLinearEquationRoot(a, b) {
  *   (0,1) (0,-1)    => π
  *   (0,-1) (1,0)    => π/2
  *   (0,1) (0,1)     => 0
- *   (0,1) (1,2)     => 0
+ *   (0,1) (1,2)     => 0  !ERROR! (0,1) (1,2) => π/4.
  */
 function getAngleBetweenVectors(x1, y1, x2, y2) {
   /*
