@@ -119,9 +119,6 @@ function getAngleBetweenVectors(x1, y1, x2, y2) {
   const vector1 = [x1, y1];
   const vector2 = [x2, y2];
 
-  // eslint-disable-next-line no-console
-  console.log(vector1, vector2);
-
   function dotProduct(v1, v2) {
     return v1[0] * v2[0] + v1[1] * v2[1];
   }

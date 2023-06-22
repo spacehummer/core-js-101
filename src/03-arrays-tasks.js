@@ -607,6 +607,9 @@ function getElementByIndexes(/* arr, indexes */) {
 function swapHeadAndTail(/* arr */) {
   // const newArr = [];
   // const arrLength = arr.length;
+  // if (arrLength === 1) {
+  //   return arr;
+  // }
   // if (arrLength % 2 === 0) {
   //   newArr.concat(arr.slice(-arrLength / 2)).concat(arr.slice(0, arrLength / 2));
   // } else {
@@ -614,7 +617,7 @@ function swapHeadAndTail(/* arr */) {
   //     .concat(arr.slice(0, Math.floor(arrLength / 2)));
   // }
   // console.log(arr, newArr);
-  // return [];
+  // return newArr;
   throw new Error('Not implemented');
 }
 
