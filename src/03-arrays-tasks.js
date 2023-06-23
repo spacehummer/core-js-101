@@ -604,21 +604,29 @@ function getElementByIndexes(/* arr, indexes */) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  // const newArr = [];
-  // const arrLength = arr.length;
-  // if (arrLength === 1) {
-  //   return arr;
-  // }
-  // if (arrLength % 2 === 0) {
-  //   newArr.concat(arr.slice(-arrLength / 2)).concat(arr.slice(0, arrLength / 2));
-  // } else {
-  //   newArr.concat(arr.slice(Math.floor(-arrLength / 2))).concat(arr[Math.ceil(arrLength / 2)])
-  //     .concat(arr.slice(0, Math.floor(arrLength / 2)));
-  // }
-  // console.log(arr, newArr);
-  // return newArr;
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  let newArr = [];
+  const arrLength = arr.length;
+  if (arrLength === 1) {
+    return arr;
+  }
+
+  let head = null;
+  let tail = null;
+  // let center = null;
+
+  if (arrLength % 2 === 0) {
+    head = arr.slice(0, arrLength / 2);
+    tail = arr.slice(-arrLength / 2);
+    console.log(head, tail);
+    newArr = newArr.concat(tail).concat(head);
+  } else {
+    // newArr.concat(arr.slice(Math.floor(-arrLength / 2))).concat(arr[Math.ceil(arrLength / 2)])
+    //   .concat(arr.slice(0, Math.floor(arrLength / 2)));
+  }
+  console.log(arr, newArr);
+  return newArr;
+  // throw new Error('Not implemented');
 }
 
 
