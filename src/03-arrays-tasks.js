@@ -613,20 +613,21 @@ function swapHeadAndTail(arr) {
 
   let head = null;
   let tail = null;
-  // let center = null;
+  let center = null;
 
   if (arrLength % 2 === 0) {
     head = arr.slice(0, arrLength / 2);
     tail = arr.slice(-arrLength / 2);
-    console.log(head, tail);
     newArr = newArr.concat(tail).concat(head);
   } else {
+    head = arr.slice(0, Math.floor(arrLength / 2));
+    tail = arr.slice(-Math.floor(arrLength / 2));
+    center = arr[Math.floor(arrLength / 2)];
     // newArr.concat(arr.slice(Math.floor(-arrLength / 2))).concat(arr[Math.ceil(arrLength / 2)])
     //   .concat(arr.slice(0, Math.floor(arrLength / 2)));
+    newArr = newArr.concat(tail).concat(center).concat(head);
   }
-  console.log(arr, newArr);
   return newArr;
-  // throw new Error('Not implemented');
 }
 
 
