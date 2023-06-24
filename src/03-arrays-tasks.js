@@ -546,8 +546,33 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  // Create Map by constructor:
+  const outputMap = new Map();
+  // Create Map keys from source Array of Object, using callback for get keys.
+  // Set values of Map, as empty arrays.
+  // Creating an object with arrays in parallel.
+  const arrTmp = array.reduce((acc, element) => {
+    outputMap.set(keySelector(element), []);
+    acc[keySelector(element)] = [];
+    return acc;
+  }, {});
+
+  // Update Map values from source Array of Object, using callback for get values:
+  array.reduce((acc, element) => {
+    // outputMap[keySelector(element)].push(valueSelector(element));
+
+    const tmpMapInnerArray = outputMap.get(keySelector(element));
+    tmpMapInnerArray.push(valueSelector(element));
+    outputMap.set(
+      keySelector(element),
+      tmpMapInnerArray,
+    );
+    acc[keySelector(element)].push(valueSelector(element));
+    return acc;
+  }, arrTmp);
+
+  return outputMap;
 }
 
 
