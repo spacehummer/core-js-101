@@ -606,8 +606,8 @@ function selectMany(arr, childrenSelector) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  return indexes.reduce((acc, current) => acc[current], arr);
 }
 
 
@@ -636,8 +636,8 @@ function swapHeadAndTail(arr) {
     return arr;
   }
 
-  let head = null;
-  let tail = null;
+  let head;
+  let tail;
   let center = null;
 
   if (arrLength % 2 === 0) {
