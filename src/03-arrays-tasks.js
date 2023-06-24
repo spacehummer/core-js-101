@@ -546,8 +546,33 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  // Create Map by constructor:
+  const outputMap = new Map();
+  // Create Map keys from source Array of Object, using callback for get keys.
+  // Set values of Map, as empty arrays.
+  // Creating an object with arrays in parallel.
+  const arrTmp = array.reduce((acc, element) => {
+    outputMap.set(keySelector(element), []);
+    acc[keySelector(element)] = [];
+    return acc;
+  }, {});
+
+  // Update Map values from source Array of Object, using callback for get values:
+  array.reduce((acc, element) => {
+    // outputMap[keySelector(element)].push(valueSelector(element));
+
+    const tmpMapInnerArray = outputMap.get(keySelector(element));
+    tmpMapInnerArray.push(valueSelector(element));
+    outputMap.set(
+      keySelector(element),
+      tmpMapInnerArray,
+    );
+    acc[keySelector(element)].push(valueSelector(element));
+    return acc;
+  }, arrTmp);
+
+  return outputMap;
 }
 
 
@@ -581,8 +606,8 @@ function selectMany(arr, childrenSelector) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  return indexes.reduce((acc, current) => acc[current], arr);
 }
 
 
@@ -611,8 +636,8 @@ function swapHeadAndTail(arr) {
     return arr;
   }
 
-  let head = null;
-  let tail = null;
+  let head;
+  let tail;
   let center = null;
 
   if (arrLength % 2 === 0) {
