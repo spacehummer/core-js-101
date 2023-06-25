@@ -20,8 +20,23 @@
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
+function Rectangle(width, height) {
+  // Create class
+  class RectangleES6 {
+    // Constructor for fields
+    constructor(widthR, heightR) {
+      this.width = widthR;
+      this.height = heightR;
+    }
+
+    // Method for calculate area
+    getArea() {
+      return this.width * this.height;
+    }
+  }
+
+  // Return object from class
+  return new RectangleES6(width, height);
 }
 
 
@@ -35,8 +50,8 @@ function Rectangle(/* width, height */) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
+function getJSON(obj) {
+  return JSON.stringify(obj);
 }
 
 
