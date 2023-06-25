@@ -95,28 +95,29 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-  // 1 hour = 360 / 12 = 30 degree
-  // 1 minute = 360 / 60 = 6 degree
+  // 1 hour: 360 / 12 = 30 degree
+  // 1 minute: 360 / 60 = 6 degree
+  // 1 minute from hour hand: 360 / (12 * 60) = 0.5 degree
+  // We need work with degrees for a reason to save precision, convert into radians only at return.
   const anglesPerMark = {
     minutes: (360 / 60),
     hours: (360 / (60 * 12)),
   };
+  // Get UTC minutes and hours in 12 hours format.
   const minutes = date.getUTCMinutes();
   const hours = date.getUTCHours() <= 12 ? date.getUTCHours() : date.getUTCHours() % 12;
-  // eslint-disable-next-line no-console
-  console.log(date, hours, minutes);
+
+  // Get angles between hands and midday mark (0/12 hour mark).
   const hoursZeroAngle = (hours * 60 + minutes) * anglesPerMark.hours;
   const minutesZeroAngle = minutes * anglesPerMark.minutes;
+  // Get angles between two hands in both directions.
   const anglesBetweenHands = [
     Math.abs(hoursZeroAngle - minutesZeroAngle),
     360 - Math.abs(hoursZeroAngle - minutesZeroAngle),
   ];
-  // eslint-disable-next-line no-console
-  console.log(hoursZeroAngle, minutesZeroAngle);
-  // eslint-disable-next-line no-console
-  console.log(anglesBetweenHands);
+
+  // Return min angle between two hands, in radians.
   return (Math.min(...anglesBetweenHands) * Math.PI) / 180;
-  // throw new Error('Not implemented');
 }
 
 
