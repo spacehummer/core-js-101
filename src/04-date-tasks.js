@@ -94,16 +94,29 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,18, 0) => Math.PI
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
-function angleBetweenClockHands(/* date */) {
-  // // 1 hour = 360 / 12 = 30 degree
-  // // 1 minute = 360 / 60 = 6 degree
-  // const angles = {
-  //   minutes: ((360 / 60) * Math.PI) / 180,
-  //   hours: ((360 / 12) * Math.PI) / 180,
-  // };
-  // console.log(date, date.getUTCHours(), date.getUTCMinutes());
-  // return Math.abs(date.getUTCHours() * angles.hours - date.getUTCMinutes() * angles.minutes);
-  throw new Error('Not implemented');
+function angleBetweenClockHands(date) {
+  // 1 hour = 360 / 12 = 30 degree
+  // 1 minute = 360 / 60 = 6 degree
+  const anglesPerMark = {
+    minutes: ((360 / 60) * Math.PI) / 180,
+    hours: ((360 / (60 * 12)) * Math.PI) / 180,
+  };
+  const minutes = date.getUTCMinutes();
+  const hours = date.getUTCHours() <= 12 ? date.getUTCHours() : date.getUTCHours() % 12;
+  // eslint-disable-next-line no-console
+  console.log(date, hours, minutes);
+  const hoursZeroAngle = (hours * 60 + minutes) * anglesPerMark.hours;
+  const minutesZeroAngle = minutes * anglesPerMark.minutes;
+  const anglesBetweenHands = [
+    Math.abs(hoursZeroAngle - minutesZeroAngle),
+    Math.PI * 2 - Math.abs(hoursZeroAngle - minutesZeroAngle),
+  ];
+  // eslint-disable-next-line no-console
+  console.log(hoursZeroAngle, minutesZeroAngle);
+  // eslint-disable-next-line no-console
+  console.log(anglesBetweenHands);
+  return Math.min(...anglesBetweenHands);
+  // throw new Error('Not implemented');
 }
 
 
