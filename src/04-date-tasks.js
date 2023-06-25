@@ -98,8 +98,8 @@ function angleBetweenClockHands(date) {
   // 1 hour = 360 / 12 = 30 degree
   // 1 minute = 360 / 60 = 6 degree
   const anglesPerMark = {
-    minutes: ((360 / 60) * Math.PI) / 180,
-    hours: ((360 / (60 * 12)) * Math.PI) / 180,
+    minutes: (360 / 60),
+    hours: (360 / (60 * 12)),
   };
   const minutes = date.getUTCMinutes();
   const hours = date.getUTCHours() <= 12 ? date.getUTCHours() : date.getUTCHours() % 12;
@@ -109,13 +109,13 @@ function angleBetweenClockHands(date) {
   const minutesZeroAngle = minutes * anglesPerMark.minutes;
   const anglesBetweenHands = [
     Math.abs(hoursZeroAngle - minutesZeroAngle),
-    Math.PI * 2 - Math.abs(hoursZeroAngle - minutesZeroAngle),
+    360 - Math.abs(hoursZeroAngle - minutesZeroAngle),
   ];
   // eslint-disable-next-line no-console
   console.log(hoursZeroAngle, minutesZeroAngle);
   // eslint-disable-next-line no-console
   console.log(anglesBetweenHands);
-  return Math.min(...anglesBetweenHands);
+  return (Math.min(...anglesBetweenHands) * Math.PI) / 180;
   // throw new Error('Not implemented');
 }
 
