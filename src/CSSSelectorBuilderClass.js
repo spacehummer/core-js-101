@@ -10,6 +10,12 @@ class CSSSelectorBuilderClass {
     this.attrSelectorsArr = [];
     this.pseudoClassSelectorsArr = [];
     this.pseudoElementSelector = null;
+    this.combinedSelectors = {
+      isExist: false,
+      selector1: null,
+      combinator: null,
+      selector2: null,
+    };
 
     this.elementError = (element) => `ERROR: HTML element selector \`${element}\``
       + ' is already exist in current selector string. Selector string'
@@ -134,6 +140,21 @@ class CSSSelectorBuilderClass {
   }
 
   /**
+   * Generate (set) combined CSS selectors.
+   * @param selector1   {string}       - left hand selector.
+   * @param combinator  {string}       - combinator.
+   * @param selector2   {string}       - right hand selector.
+   * @return {CSSSelectorBuilderClass} - selector components and methods.
+   */
+  combine(selector1, combinator, selector2) {
+    this.combinedSelectors.selector1 = selector1;
+    this.combinedSelectors.combinator = combinator;
+    this.combinedSelectors.selector2 = selector2;
+    this.combinedSelectors.isExist = true;
+    return this;
+  }
+
+  /**
    * Get selector string from Object with selector components.
    * @return {string} - selector string from selector object.
    */
@@ -164,6 +185,12 @@ class CSSSelectorBuilderClass {
     if (this.pseudoElementSelector !== null) {
       cssSelectorStr = `${cssSelectorStr}::${this.pseudoElementSelector}`;
     }
+    if (this.combinedSelectors.isExist) {
+      cssSelectorStr = `${this.combinedSelectors.selector1.stringify()}`
+        + ` ${this.combinedSelectors.combinator}`
+        + ` ${this.combinedSelectors.selector2.stringify()}`;
+    }
+
     // eslint-disable-next-line no-console
     console.log(cssSelectorStr);
     return cssSelectorStr;

@@ -161,8 +161,8 @@ const cssSelectorBuilder = {
     return new CSSSelectorBuilderClass().pseudoElement(value);
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-
+  combine(selector1, combinator, selector2) {
+    return new CSSSelectorBuilderClass().combine(selector1, combinator, selector2);
   },
 };
 
