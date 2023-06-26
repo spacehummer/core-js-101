@@ -6,6 +6,11 @@
  *                                                                                                *
  ************************************************************************************************ */
 
+/**
+ * Class for task cssSelectorBuilder.
+ */
+// import CSSSelectorBuilderClass from './CSSSelectorBuilderClass';
+const { CSSSelectorBuilderClass } = require('./CSSSelectorBuilderClass');
 
 /**
  * Returns the rectangle object with width and height parameters and getArea() method
@@ -20,6 +25,7 @@
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
+// eslint-disable-next-line max-classes-per-file
 function Rectangle(width, height) {
   // Create class
   class RectangleES6 {
@@ -130,32 +136,33 @@ function fromJSON(proto, json) {
  */
 
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+
+  element(value) {
+    return new CSSSelectorBuilderClass().htmlElement(value);
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    return new CSSSelectorBuilderClass().id(value);
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    return new CSSSelectorBuilderClass().class(value);
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    return new CSSSelectorBuilderClass().attr(value);
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    return new CSSSelectorBuilderClass().pseudoClass(value);
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    return new CSSSelectorBuilderClass().pseudoElement(value);
   },
 
   combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+
   },
 };
 
