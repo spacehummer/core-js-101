@@ -138,7 +138,7 @@ function fromJSON(proto, json) {
 const cssSelectorBuilder = {
 
   element(value) {
-    return new CSSSelectorBuilderClass().htmlElement(value);
+    return new CSSSelectorBuilderClass().element(value);
   },
 
   id(value) {

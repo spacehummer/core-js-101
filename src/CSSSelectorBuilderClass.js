@@ -17,17 +17,14 @@ class CSSSelectorBuilderClass {
       selector2: null,
     };
 
-    this.elementError = (element) => `ERROR: HTML element selector \`${element}\``
-      + ' is already exist in current selector string. Selector string'
-      + ' can have only one HTML element without combinator.';
-    this.idError = (id) => `ERROR: id selector \`${id}\``
-      + ' is already exist in current selector string. Selector string'
-      + ' can have only one id without combinator.';
-    this.pseudoElementError = (pseudoElement) => `ERROR: pseudo-element selector \`${pseudoElement}\``
-      + ' is already exist in current selector string. Selector string'
-      + ' can have only one pseudo-element without combinator.';
-    this.orderError = 'ERROR: selector parts order error: parts should be arranged in the following'
-      + 'order: element, identifier, class, attribute, pseudo-class, pseudo-element';
+    this.elementError = () => 'Element, id and pseudo-element should not occur more'
+      + ' then one time inside the selector';
+    this.idError = () => 'Element, id and pseudo-element should not occur more'
+      + ' then one time inside the selector';
+    this.pseudoElementError = () => 'Element, id and pseudo-element should not occur more'
+      + ' then one time inside the selector';
+    this.orderError = 'Selector parts should be arranged in the following order:'
+      + ' element, id, class, attribute, pseudo-class, pseudo-element';
   }
 
   /**
@@ -35,11 +32,13 @@ class CSSSelectorBuilderClass {
    * @param value {string}                  - HTML element name.
    * @return      {CSSSelectorBuilderClass} - selector components and methods.
    */
-  htmlElement(value) {
+  element(value) {
     // If the element already exists in the selector chain, throw error, because selector string
     // can have only one HTML element without combinator.
     if (this.htmlElementSelector) {
-      throw new Error(this.elementError(this.htmlElementSelector));
+      // eslint-disable-next-line no-console
+      console.log('ERROR');
+      throw new Error(this.elementError());
     } else if (this.idSelector !== null
       || this.classSelectorsArr.length !== 0
       || this.attrSelectorsArr.length !== 0
@@ -62,7 +61,9 @@ class CSSSelectorBuilderClass {
     // If the id already exists in the selector chain, throw error, because selector string
     // can have only one id without combinator.
     if (this.idSelector) {
-      throw new Error(this.idError(this.idSelector));
+      // eslint-disable-next-line no-console
+      console.log('ERROR');
+      throw new Error(this.idError());
     } else if (this.classSelectorsArr.length !== 0
       || this.attrSelectorsArr.length !== 0
       || this.pseudoClassSelectorsArr.length !== 0
@@ -85,6 +86,8 @@ class CSSSelectorBuilderClass {
       || this.pseudoClassSelectorsArr.length !== 0
       || this.pseudoElementSelector !== null) {
       // Check, what attribute, pseudo-class, pseudo-element does not exist yet.
+      // eslint-disable-next-line no-console
+      console.log('ERROR');
       throw new Error(this.orderError);
     } else {
       this.classSelectorsArr.push(value);
@@ -101,6 +104,8 @@ class CSSSelectorBuilderClass {
     if (this.pseudoClassSelectorsArr.length !== 0
       || this.pseudoElementSelector !== null) {
       // Check, what pseudo-class, pseudo-element does not exist yet.
+      // eslint-disable-next-line no-console
+      console.log('ERROR');
       throw new Error(this.orderError);
     } else {
       this.attrSelectorsArr.push(value);
@@ -116,6 +121,8 @@ class CSSSelectorBuilderClass {
   pseudoClass(value) {
     if (this.pseudoElementSelector !== null) {
       // Check, what pseudo-class, pseudo-element does not exist yet.
+      // eslint-disable-next-line no-console
+      console.log('ERROR');
       throw new Error(this.orderError);
     } else {
       this.pseudoClassSelectorsArr.push(value);
@@ -132,6 +139,8 @@ class CSSSelectorBuilderClass {
     if (this.pseudoElementSelector) {
       // If the pseudo-element already exists in the selector chain, throw error, because
       // selector string can have only one pseudo-element without combinator.
+      // eslint-disable-next-line no-console
+      console.log('ERROR');
       throw new Error(this.pseudoElementError());
     } else {
       this.pseudoElementSelector = value;
