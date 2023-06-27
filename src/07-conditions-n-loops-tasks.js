@@ -443,12 +443,18 @@ function getMatrixProduct(m1, m2) {
  */
 function evaluateTicTacToePosition(position) {
   // Declare counters
-  let XCountInRow = 0;
-  let XCountInColumn = 0;
-  let OCountInRow = 0;
-  let OCountInColumn = 0;
-  let XCountInDiag1 = 0;
+  // let XCountInRow = 0;
+  // let XCountInColumn = 0;
+  // let OCountInRow = 0;
+  // let OCountInColumn = 0;
+  // let XCountInDiag1 = 0;
   // let YCountInDiag1 = 0;
+
+  // Declare symbols
+  const symbol = {
+    x: 'X',
+    o: '0',
+  };
 
   const status = {
     xIsWin: false,
@@ -457,66 +463,79 @@ function evaluateTicTacToePosition(position) {
   };
 
   // eslint-disable-next-line no-console
-  console.log('================\n', position, '\n================\n');
+  // console.log('================\n', position, '\n================\n');
 
-  // Check rows
-  position.forEach((row) => {
-    // eslint-disable-next-line no-console
-    console.log(row);
-    XCountInRow = row.reduce((acc, cell) => acc + (cell === 'X' ? 1 : 0), 0);
-    OCountInRow = row.reduce((acc, cell) => acc + (cell === '0' ? 1 : 0), 0);
-    // eslint-disable-next-line no-console
-    console.log(XCountInRow, OCountInRow);
-    if (XCountInRow >= 3) {
-      status.xIsWin = true;
-      status.outputStatus = 'X';
-    } else if (OCountInRow >= 3) {
-      status.oIsWin = true;
-      status.outputStatus = '0';
-    }
-  });
-
-  // eslint-disable-next-line no-console
-  console.log(status);
-
-  // Check columns
-  for (let i = 0; i < 3; i += 1) {
-    for (let j = 0; j < 3; j += 1) {
-      if (position[j][i] === 'X') {
-        XCountInColumn += 1;
-      } else if (position[j][i] === '0') {
-        OCountInColumn += 1;
-      }
-
-      // eslint-disable-next-line no-console
-      console.log(XCountInColumn, OCountInColumn);
-      if (XCountInColumn >= 3) {
-        status.xIsWin = true;
-        status.outputStatus = 'X';
-      } else if (OCountInColumn >= 3) {
-        status.oIsWin = true;
-        status.outputStatus = '0';
-      }
-      // XCountInColumn = 0;
-      // OCountInColumn = 0;
-    }
+  function transposeMatrix(matrix) {
+    // [[1, 2, 3],
+    //   [4, 5, 6],
+    //   [7, 8, 9]]
+    //
+    // Get array indexes of every column in Array of Array by Object.keys(matrix[0]);
+    // (example: [ '0', '1', '2' ]);
+    // map through it and in callback map through source Array of Array, here we now
+    // can access row index and row
+    return Object.keys(matrix[0])
+      .map((colNumber) => matrix.map((row) => row[colNumber.toString()]));
+    // another solution: output = array[0].map((_, colIndex) => array.map(row => row[colIndex]));
   }
+
+  /**
+   * Check winner in row in Array of Array
+   * @param positionLocal {Array[]}
+   */
+  function checkWinnerInRow(positionLocal) {
+    positionLocal.forEach((row) => {
+      if (row.every((cell) => cell === symbol.x) && (row.length === 3)) {
+        status.xIsWin = true;
+        status.outputStatus = symbol.x;
+      } else if (row.every((cell) => cell === symbol.o) && (row.length === 3)) {
+        status.oIsWin = true;
+        status.outputStatus = symbol.o;
+      }
+    });
+  }
+
+  // Check source Array of Array
+  checkWinnerInRow(position);
 
   // eslint-disable-next-line no-console
   // console.log(status);
 
-  // Check diagonals
-  position.forEach((row, rowIndex) => {
-    XCountInDiag1 += row.reduce(
-      (acc, cell, columnIndex) => acc + ((cell === 'X') && (rowIndex === columnIndex) ? 1 : 0),
-      0,
-    );
-  });
+  // Check transposed Array of Array
+  checkWinnerInRow(transposeMatrix(position));
 
-  if (XCountInDiag1 >= 3) {
-    status.xIsWin = true;
-    status.outputStatus = 'X';
+  // eslint-disable-next-line no-console
+  // console.log(status);
+
+  let winnerSymbol = null;
+  // Check diagonals manually, without loop, because the cycle is not rational to apply
+  // for matrix 3x3.
+  if (typeof position[1][1] !== 'undefined') {
+    // Detect, what center of matrix is defined
+    if ([position[0][0], position[1][1], position[2][2]]
+      .every((cell) => cell === position[1][1])) {
+      [, [, winnerSymbol]] = position;
+    } else if ([position[0][2], position[1][1], position[2][0]]
+      .every((cell) => cell === position[1][1])) {
+      [, [, winnerSymbol]] = position;
+    }
   }
+
+  switch (winnerSymbol) {
+    case symbol.x:
+      status.xIsWin = true;
+      status.outputStatus = symbol.x;
+      break;
+    case symbol.o:
+      status.oIsWin = true;
+      status.outputStatus = symbol.o;
+      break;
+    default:
+      break;
+  }
+
+  // eslint-disable-next-line no-console
+  // console.log(status);
 
   return status.outputStatus;
 }
