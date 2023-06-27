@@ -36,8 +36,6 @@ class CSSSelectorBuilderClass {
     // If the element already exists in the selector chain, throw error, because selector string
     // can have only one HTML element without combinator.
     if (this.htmlElementSelector) {
-      // eslint-disable-next-line no-console
-      console.log('ERROR');
       throw new Error(this.elementError());
     } else if (this.idSelector !== null
       || this.classSelectorsArr.length !== 0
@@ -61,8 +59,6 @@ class CSSSelectorBuilderClass {
     // If the id already exists in the selector chain, throw error, because selector string
     // can have only one id without combinator.
     if (this.idSelector) {
-      // eslint-disable-next-line no-console
-      console.log('ERROR');
       throw new Error(this.idError());
     } else if (this.classSelectorsArr.length !== 0
       || this.attrSelectorsArr.length !== 0
@@ -86,8 +82,6 @@ class CSSSelectorBuilderClass {
       || this.pseudoClassSelectorsArr.length !== 0
       || this.pseudoElementSelector !== null) {
       // Check, what attribute, pseudo-class, pseudo-element does not exist yet.
-      // eslint-disable-next-line no-console
-      console.log('ERROR');
       throw new Error(this.orderError);
     } else {
       this.classSelectorsArr.push(value);
@@ -104,8 +98,6 @@ class CSSSelectorBuilderClass {
     if (this.pseudoClassSelectorsArr.length !== 0
       || this.pseudoElementSelector !== null) {
       // Check, what pseudo-class, pseudo-element does not exist yet.
-      // eslint-disable-next-line no-console
-      console.log('ERROR');
       throw new Error(this.orderError);
     } else {
       this.attrSelectorsArr.push(value);
@@ -121,8 +113,6 @@ class CSSSelectorBuilderClass {
   pseudoClass(value) {
     if (this.pseudoElementSelector !== null) {
       // Check, what pseudo-class, pseudo-element does not exist yet.
-      // eslint-disable-next-line no-console
-      console.log('ERROR');
       throw new Error(this.orderError);
     } else {
       this.pseudoClassSelectorsArr.push(value);
@@ -139,8 +129,6 @@ class CSSSelectorBuilderClass {
     if (this.pseudoElementSelector) {
       // If the pseudo-element already exists in the selector chain, throw error, because
       // selector string can have only one pseudo-element without combinator.
-      // eslint-disable-next-line no-console
-      console.log('ERROR');
       throw new Error(this.pseudoElementError());
     } else {
       this.pseudoElementSelector = value;
@@ -200,8 +188,6 @@ class CSSSelectorBuilderClass {
         + ` ${this.combinedSelectors.selector2.stringify()}`;
     }
 
-    // eslint-disable-next-line no-console
-    console.log(cssSelectorStr);
     return cssSelectorStr;
   }
 }
