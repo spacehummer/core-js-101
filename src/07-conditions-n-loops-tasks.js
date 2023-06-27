@@ -27,8 +27,18 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  let result;
+  if (num % 3 === 0 && num % 5 === 0) {
+    result = 'FizzBuzz';
+  } else if (num % 3 === 0) {
+    result = 'Fizz';
+  } else if (num % 5 === 0) {
+    result = 'Buzz';
+  } else {
+    result = num;
+  }
+  return result;
 }
 
 
@@ -102,7 +112,8 @@ function isTriangle(/* a, b, c */) {
  *     -------------
  *        width=20
  *
- * NOTE: Please use canvas coordinate space (https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#The_grid),
+ * NOTE: Please use canvas coordinate space
+ * (https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#The_grid),
  * it differs from Cartesian coordinate system.
  *
  * @param {object} rect1
@@ -192,6 +203,7 @@ function findFirstSingleChar(/* str */) {
  *
  */
 function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
+  // How to solve it briefly?
   throw new Error('Not implemented');
 }
 
@@ -319,8 +331,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
@@ -359,8 +371,43 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  /*
+  * Matrix product rule.
+  * [[a11, a12], * [[b11, b12], = [a11 * b11 + a12 * b21,  a11 * b12 + a12 * b22],
+  *  [a21, a22]]    [b21, b22]]    [a21 * b11 + a22 * b21, a21 * b12 + a22 * b22]]
+  *
+  * or
+  *
+  * [[M1.row1 * M2.column1, M1.row1 * M2.column2],
+  *  [M1.row2 * M2.column1, M1.row2 * M2.column2]]
+  *
+  * */
+  // `for` loop is more faster, as `.map` and etc.
+  const m1RowsCount = m1.length;
+  const m1ColsCount = m1[0].length;
+  const m2ColsCount = m2[0].length;
+  // Initialize array of rows - new matrix
+  const resultMatrix = Array.from({ length: m1RowsCount });
+  // eslint-disable-next-line no-console
+  // console.log(resultMatrix);
+  // Loop throw array of rows
+  for (let row = 0; row < m1RowsCount; row += 1) {
+    // Initialize the current row Array
+    resultMatrix[row] = Array.from({ length: m2ColsCount });
+    // Loop throw row
+    for (let column = 0; column < m2ColsCount; column += 1) {
+      // Initialize the current cell of row of array of row
+      resultMatrix[row][column] = 0;
+      for (let i = 0; i < m1ColsCount; i += 1) {
+        // Multiply pairs of cells of m1 row and m2 column and accumulate it in current cell
+        resultMatrix[row][column] += m1[row][i] * m2[i][column];
+        // eslint-disable-next-line no-console
+        // console.log(resultMatrix);
+      }
+    }
+  }
+  return resultMatrix;
 }
 
 
@@ -394,8 +441,103 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  // Declare counters
+  // let XCountInRow = 0;
+  // let XCountInColumn = 0;
+  // let OCountInRow = 0;
+  // let OCountInColumn = 0;
+  // let XCountInDiag1 = 0;
+  // let YCountInDiag1 = 0;
+
+  // Declare symbols
+  const symbol = {
+    x: 'X',
+    o: '0',
+  };
+
+  const status = {
+    xIsWin: false,
+    oIsWin: false,
+    outputStatus: undefined,
+  };
+
+  // eslint-disable-next-line no-console
+  // console.log('================\n', position, '\n================\n');
+
+  function transposeMatrix(matrix) {
+    // [[1, 2, 3],
+    //   [4, 5, 6],
+    //   [7, 8, 9]]
+    //
+    // Get array indexes of every column in Array of Array by Object.keys(matrix[0]);
+    // (example: [ '0', '1', '2' ]);
+    // map through it and in callback map through source Array of Array, here we now
+    // can access row index and row
+    return Object.keys(matrix[0])
+      .map((colNumber) => matrix.map((row) => row[colNumber.toString()]));
+    // another solution: output = array[0].map((_, colIndex) => array.map(row => row[colIndex]));
+  }
+
+  /**
+   * Check winner in row in Array of Array
+   * @param positionLocal {Array[]}
+   */
+  function checkWinnerInRow(positionLocal) {
+    positionLocal.forEach((row) => {
+      if (row.every((cell) => cell === symbol.x) && (row.length === 3)) {
+        status.xIsWin = true;
+        status.outputStatus = symbol.x;
+      } else if (row.every((cell) => cell === symbol.o) && (row.length === 3)) {
+        status.oIsWin = true;
+        status.outputStatus = symbol.o;
+      }
+    });
+  }
+
+  // Check source Array of Array
+  checkWinnerInRow(position);
+
+  // eslint-disable-next-line no-console
+  // console.log(status);
+
+  // Check transposed Array of Array
+  checkWinnerInRow(transposeMatrix(position));
+
+  // eslint-disable-next-line no-console
+  // console.log(status);
+
+  let winnerSymbol = null;
+  // Check diagonals manually, without loop, because the cycle is not rational to apply
+  // for matrix 3x3.
+  if (typeof position[1][1] !== 'undefined') {
+    // Detect, what center of matrix is defined
+    if ([position[0][0], position[1][1], position[2][2]]
+      .every((cell) => cell === position[1][1])) {
+      [, [, winnerSymbol]] = position;
+    } else if ([position[0][2], position[1][1], position[2][0]]
+      .every((cell) => cell === position[1][1])) {
+      [, [, winnerSymbol]] = position;
+    }
+  }
+
+  switch (winnerSymbol) {
+    case symbol.x:
+      status.xIsWin = true;
+      status.outputStatus = symbol.x;
+      break;
+    case symbol.o:
+      status.oIsWin = true;
+      status.outputStatus = symbol.o;
+      break;
+    default:
+      break;
+  }
+
+  // eslint-disable-next-line no-console
+  // console.log(status);
+
+  return status.outputStatus;
 }
 
 

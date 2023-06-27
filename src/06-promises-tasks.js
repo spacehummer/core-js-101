@@ -28,8 +28,20 @@
  *      .catch((error) => console.log(error.message)) // 'Error: Wrong parameter is passed!
  *                                                    //  Ask her again.';
  */
-function willYouMarryMe(/* isPositiveAnswer */) {
-  throw new Error('Not implemented');
+function willYouMarryMe(isPositiveAnswer) {
+  return new Promise((resolve, reject) => {
+    switch (isPositiveAnswer) {
+      case true:
+        resolve('Hooray!!! She said "Yes"!');
+        break;
+      case false:
+        resolve('Oh no, she said "No".');
+        break;
+      default:
+        reject(new Error('Wrong parameter is passed! Ask her again.'));
+        break;
+    }
+  });
 }
 
 
@@ -48,8 +60,13 @@ function willYouMarryMe(/* isPositiveAnswer */) {
  *    })
  *
  */
-function processAllPromises(/* array */) {
-  throw new Error('Not implemented');
+function processAllPromises(array) {
+  // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
+  // // eslint-disable-next-line no-console
+  // console.log(array);
+  // // eslint-disable-next-line no-console
+  // console.log(result);
+  return Promise.all(array);
 }
 
 /**
@@ -71,8 +88,9 @@ function processAllPromises(/* array */) {
  *    })
  *
  */
-function getFastestPromise(/* array */) {
-  throw new Error('Not implemented');
+function getFastestPromise(array) {
+  // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise/race
+  return Promise.race(array);
 }
 
 /**
@@ -92,8 +110,24 @@ function getFastestPromise(/* array */) {
  *    });
  *
  */
-function chainPromises(/* array, action */) {
-  throw new Error('Not implemented');
+function chainPromises(array, action) {
+  const tmpArr = [];
+  // const resultArr = [];
+  return new Promise((resolve/* reject */) => {
+    array.forEach((promise, promiseIndex) => {
+      promise.then((promiseResult) => {
+        tmpArr.push(promiseResult);
+        if (promiseIndex === array.length - 1) {
+          resolve(tmpArr.reduce(action));
+        }
+      }).catch((err) => {
+        tmpArr.push(err);
+        if (promiseIndex === array.length - 1) {
+          resolve(tmpArr.reduce(action));
+        }
+      });
+    });
+  });
 }
 
 module.exports = {
