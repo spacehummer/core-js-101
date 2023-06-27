@@ -60,8 +60,13 @@ function willYouMarryMe(isPositiveAnswer) {
  *    })
  *
  */
-function processAllPromises(/* array */) {
-  throw new Error('Not implemented');
+function processAllPromises(array) {
+  // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
+  // // eslint-disable-next-line no-console
+  // console.log(array);
+  // // eslint-disable-next-line no-console
+  // console.log(result);
+  return Promise.all(array);
 }
 
 /**
