@@ -27,8 +27,18 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  let result;
+  if (num % 3 === 0 && num % 5 === 0) {
+    result = 'FizzBuzz';
+  } else if (num % 3 === 0) {
+    result = 'Fizz';
+  } else if (num % 5 === 0) {
+    result = 'Buzz';
+  } else {
+    result = num;
+  }
+  return result;
 }
 
 
@@ -192,6 +202,7 @@ function findFirstSingleChar(/* str */) {
  *
  */
 function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
+  // How to solve it briefly?
   throw new Error('Not implemented');
 }
 
