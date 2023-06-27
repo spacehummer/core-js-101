@@ -6,6 +6,11 @@
  *                                                                                                *
  ************************************************************************************************ */
 
+/**
+ * Class for task cssSelectorBuilder.
+ */
+// import CSSSelectorBuilderClass from './CSSSelectorBuilderClass';
+const { CSSSelectorBuilderClass } = require('./CSSSelectorBuilderClass');
 
 /**
  * Returns the rectangle object with width and height parameters and getArea() method
@@ -20,8 +25,24 @@
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
+// eslint-disable-next-line max-classes-per-file
+function Rectangle(width, height) {
+  // Create class
+  class RectangleES6 {
+    // Constructor for fields
+    constructor(widthR, heightR) {
+      this.width = widthR;
+      this.height = heightR;
+    }
+
+    // Method for calculate area
+    getArea() {
+      return this.width * this.height;
+    }
+  }
+
+  // Return object from class
+  return new RectangleES6(width, height);
 }
 
 
@@ -35,8 +56,8 @@ function Rectangle(/* width, height */) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
+function getJSON(obj) {
+  return JSON.stringify(obj);
 }
 
 
@@ -51,8 +72,12 @@ function getJSON(/* obj */) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
+function fromJSON(proto, json) {
+  // Parse source object from JSON
+  const object = JSON.parse(json);
+  // Set prototype of parsed object from proto arg, using Object.setPrototypeOf(object, proto);
+  Object.setPrototypeOf(object, proto);
+  return object;
 }
 
 
@@ -111,32 +136,33 @@ function fromJSON(/* proto, json */) {
  */
 
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+
+  element(value) {
+    return new CSSSelectorBuilderClass().element(value);
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    return new CSSSelectorBuilderClass().id(value);
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    return new CSSSelectorBuilderClass().class(value);
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    return new CSSSelectorBuilderClass().attr(value);
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    return new CSSSelectorBuilderClass().pseudoClass(value);
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    return new CSSSelectorBuilderClass().pseudoElement(value);
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  combine(selector1, combinator, selector2) {
+    return new CSSSelectorBuilderClass().combine(selector1, combinator, selector2);
   },
 };
 
