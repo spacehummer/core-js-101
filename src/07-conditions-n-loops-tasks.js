@@ -112,7 +112,8 @@ function isTriangle(/* a, b, c */) {
  *     -------------
  *        width=20
  *
- * NOTE: Please use canvas coordinate space (https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#The_grid),
+ * NOTE: Please use canvas coordinate space
+ * (https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#The_grid),
  * it differs from Cartesian coordinate system.
  *
  * @param {object} rect1
@@ -330,8 +331,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
@@ -370,8 +371,43 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  /*
+  * Matrix product rule.
+  * [[a11, a12], * [[b11, b12], = [a11 * b11 + a12 * b21,  a11 * b12 + a12 * b22],
+  *  [a21, a22]]    [b21, b22]]    [a21 * b11 + a22 * b21, a21 * b12 + a22 * b22]]
+  *
+  * or
+  *
+  * [[M1.row1 * M2.column1, M1.row1 * M2.column2],
+  *  [M1.row2 * M2.column1, M1.row2 * M2.column2]]
+  *
+  * */
+  // `for` loop is more faster, as `.map` and etc.
+  const m1RowsCount = m1.length;
+  const m1ColsCount = m1[0].length;
+  const m2ColsCount = m2[0].length;
+  // Initialize array of rows - new matrix
+  const resultMatrix = Array.from({ length: m1RowsCount });
+  // eslint-disable-next-line no-console
+  // console.log(resultMatrix);
+  // Loop throw array of rows
+  for (let row = 0; row < m1RowsCount; row += 1) {
+    // Initialize the current row Array
+    resultMatrix[row] = Array.from({ length: m2ColsCount });
+    // Loop throw row
+    for (let column = 0; column < m2ColsCount; column += 1) {
+      // Initialize the current cell of row of array of row
+      resultMatrix[row][column] = 0;
+      for (let i = 0; i < m1ColsCount; i += 1) {
+        // Multiply pairs of cells of m1 row and m2 column and accumulate it in current cell
+        resultMatrix[row][column] += m1[row][i] * m2[i][column];
+        // eslint-disable-next-line no-console
+        // console.log(resultMatrix);
+      }
+    }
+  }
+  return resultMatrix;
 }
 
 
@@ -405,8 +441,84 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  // Declare counters
+  let XCountInRow = 0;
+  let XCountInColumn = 0;
+  let OCountInRow = 0;
+  let OCountInColumn = 0;
+  let XCountInDiag1 = 0;
+  // let YCountInDiag1 = 0;
+
+  const status = {
+    xIsWin: false,
+    oIsWin: false,
+    outputStatus: undefined,
+  };
+
+  // eslint-disable-next-line no-console
+  console.log('================\n', position, '\n================\n');
+
+  // Check rows
+  position.forEach((row) => {
+    // eslint-disable-next-line no-console
+    console.log(row);
+    XCountInRow = row.reduce((acc, cell) => acc + (cell === 'X' ? 1 : 0), 0);
+    OCountInRow = row.reduce((acc, cell) => acc + (cell === '0' ? 1 : 0), 0);
+    // eslint-disable-next-line no-console
+    console.log(XCountInRow, OCountInRow);
+    if (XCountInRow >= 3) {
+      status.xIsWin = true;
+      status.outputStatus = 'X';
+    } else if (OCountInRow >= 3) {
+      status.oIsWin = true;
+      status.outputStatus = '0';
+    }
+  });
+
+  // eslint-disable-next-line no-console
+  console.log(status);
+
+  // Check columns
+  for (let i = 0; i < 3; i += 1) {
+    for (let j = 0; j < 3; j += 1) {
+      if (position[j][i] === 'X') {
+        XCountInColumn += 1;
+      } else if (position[j][i] === '0') {
+        OCountInColumn += 1;
+      }
+
+      // eslint-disable-next-line no-console
+      console.log(XCountInColumn, OCountInColumn);
+      if (XCountInColumn >= 3) {
+        status.xIsWin = true;
+        status.outputStatus = 'X';
+      } else if (OCountInColumn >= 3) {
+        status.oIsWin = true;
+        status.outputStatus = '0';
+      }
+      // XCountInColumn = 0;
+      // OCountInColumn = 0;
+    }
+  }
+
+  // eslint-disable-next-line no-console
+  // console.log(status);
+
+  // Check diagonals
+  position.forEach((row, rowIndex) => {
+    XCountInDiag1 += row.reduce(
+      (acc, cell, columnIndex) => acc + ((cell === 'X') && (rowIndex === columnIndex) ? 1 : 0),
+      0,
+    );
+  });
+
+  if (XCountInDiag1 >= 3) {
+    status.xIsWin = true;
+    status.outputStatus = 'X';
+  }
+
+  return status.outputStatus;
 }
 
 
