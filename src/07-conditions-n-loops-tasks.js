@@ -249,7 +249,7 @@ function findFirstSingleChar(str) {
   });
 
   // eslint-disable-next-line no-console
-  console.log(symbolsCountMap);
+  // console.log(symbolsCountMap);
   return singleCharsArr[0];
 }
 
@@ -263,8 +263,8 @@ function findFirstSingleChar(str) {
  *
  * @param {number} a
  * @param {number} b
- * @param {bool} isStartIncluded
- * @param {bool} isEndIncluded
+ * @param {Boolean} isStartIncluded
+ * @param {Boolean} isEndIncluded
  * @return {string}
  *
  * @example
@@ -277,7 +277,8 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-  // Briefly solution?
+  // fix error in JSDoc (bool -> Boolean)
+  // Briefly solution:
   return `${isStartIncluded ? '[' : '('}${Math.min(a, b)}`
     + `, ${Math.max(a, b)}${isEndIncluded ? ']' : ')'}`;
 }
@@ -312,8 +313,8 @@ function reverseString(str) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return Number(num.toString(10).split('').reverse().join(''));
 }
 
 
@@ -323,7 +324,7 @@ function reverseInteger(/* num */) {
  *
  * See algorithm here : https://en.wikipedia.org/wiki/Luhn_algorithm
  *
- * @param {number} cnn
+ * @param {number} ccn
  * @return {boolean}
  *
  * @example:
@@ -337,8 +338,60 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  // Fix error in JSDoc: cnn -> ccn
+
+  // 7      9 9      2 7      3 9      8 7      1 3
+  // 14 - 9   18 - 9   14 - 9   18 - 9   14 - 9   6 < 9
+  // 5      9 9      2 5      3 9      8 5      1 3
+  const ccnDigitsArr = ccn.toString(10).split('').map((char) => Number(char));
+  // const ccnDigitsArr = (4561261212345464).toString(10).split('').map((char) => Number(char));
+
+  const controlNumberArr = [];
+  let isEven = true;
+
+  if (ccnDigitsArr.length % 2 === 0) {
+    ccnDigitsArr.forEach((digit) => {
+      const currentSourceDigit = digit;
+      const multipliedCurrentDigit = currentSourceDigit * 2;
+      let newDigit;
+      if (isEven && (multipliedCurrentDigit > 9)) {
+        newDigit = multipliedCurrentDigit - 9;
+      } else if (isEven && (multipliedCurrentDigit <= 9)) {
+        newDigit = multipliedCurrentDigit;
+      } else {
+        newDigit = currentSourceDigit;
+      }
+
+      controlNumberArr.push(newDigit);
+      isEven = !isEven;
+    });
+  } else {
+    ccnDigitsArr.forEach((digit) => {
+      const currentSourceDigit = digit;
+      const multipliedCurrentDigit = currentSourceDigit * 2;
+      let newDigit;
+      if (!isEven && (multipliedCurrentDigit > 9)) {
+        newDigit = multipliedCurrentDigit - 9;
+      } else if (!isEven && (multipliedCurrentDigit <= 9)) {
+        newDigit = multipliedCurrentDigit;
+      } else {
+        newDigit = currentSourceDigit;
+      }
+
+      controlNumberArr.push(newDigit);
+      isEven = !isEven;
+    });
+  }
+
+  // eslint-disable-next-line no-console
+  // console.log(
+  //   ccnDigitsArr,
+  //   controlNumberArr,
+  //   controlNumberArr.reduce((acc, cur) => acc + cur, 0),
+  // );
+
+  return controlNumberArr.reduce((acc, cur) => acc + cur, 0) % 10 === 0;
 }
 
 /**
@@ -346,7 +399,7 @@ function isCreditCardNumber(/* ccn */) {
  *   step1 : find sum of all digits
  *   step2 : if sum > 9 then goto step1 otherwise return the sum
  *
- * @param {number} n
+ * @param {number} num
  * @return {number}
  *
  * @example:
@@ -356,6 +409,7 @@ function isCreditCardNumber(/* ccn */) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(/* num */) {
+  // fix error in JSDoc (n -> num)
   throw new Error('Not implemented');
 }
 
