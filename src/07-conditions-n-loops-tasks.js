@@ -53,8 +53,21 @@ function getFizzBuzz(num) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  let res = 1;
+
+  if (n === 0) {
+    return 1;
+  }
+  if (n < 0) {
+    return undefined;
+  }
+  for (let i = n; i > 0; i -= 1) {
+    res *= i;
+    // eslint-disable-next-line no-console
+    // console.log(res);
+  }
+  return res;
 }
 
 
@@ -70,8 +83,14 @@ function getFactorial(/* n */) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
+function getSumBetweenNumbers(n1, n2) {
+  let res = 0;
+
+  for (let i = n1; i <= n2; i += 1) {
+    res += i;
+  }
+
+  return res;
 }
 
 
@@ -82,7 +101,7 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  * @param {number} a
  * @param {number} b
  * @param {number} c
- * @return {bool}
+ * @return {Boolean}
  *
  * @example:
  *   1,2,3    =>  false
@@ -90,8 +109,14 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+  // fix error in JSDoc (bool -> Boolean)
+  return a > 0
+    && b > 0
+    && c > 0
+    && a + b > c
+    && a + c > b
+    && c + b > a;
 }
 
 
@@ -118,7 +143,7 @@ function isTriangle(/* a, b, c */) {
  *
  * @param {object} rect1
  * @param {object} rect2
- * @return {bool}
+ * @return {Boolean}
  *
  * @example:
  *   { top: 0, left: 0, width: 10, height: 10 },
@@ -128,8 +153,24 @@ function isTriangle(/* a, b, c */) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  // fix error in JSDoc (bool -> Boolean)
+
+  // Define collision status
+  let xCollision = false;
+  let yCollision = false;
+
+  // Test rects
+  if ((rect1.left + rect1.width >= rect2.left)
+    && (rect1.left <= rect2.left + rect2.width)) {
+    xCollision = true;
+  }
+  if ((rect1.top + rect1.height >= rect2.top)
+    && (rect1.top <= rect2.top + rect2.height)) {
+    yCollision = true;
+  }
+
+  return xCollision && yCollision;
 }
 
 
@@ -152,15 +193,28 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *
  * @param {object} circle
  * @param {object} point
- * @return {bool}
+ * @return {Boolean}
  *
  * @example:
  *   { center: { x:0, y:0 }, radius:10 },  { x:0, y:0 }     => true
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  // fix error in JSDoc (bool -> Boolean)
+
+  // Declare point status variables
+  // let xIsInside = false;
+  // let yIsInside = false;
+
+  // Get x and y distance
+  const xDistance = point.x - circle.center.x;
+  const yDistance = point.y - circle.center.y;
+
+  // Get 2D distance between circle center and point
+  const distance = Math.sqrt(xDistance ** 2 + yDistance ** 2);
+
+  return distance < circle.radius;
 }
 
 
@@ -175,8 +229,28 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const symbolsCountMap = new Map();
+  const symbolsArr = str.split('');
+  const singleCharsArr = [];
+
+  symbolsArr.forEach((symbol) => {
+    if (symbolsCountMap.has(symbol)) {
+      symbolsCountMap.set(symbol, symbolsCountMap.get(symbol) + 1);
+    } else {
+      symbolsCountMap.set(symbol, 1);
+    }
+  });
+
+  symbolsArr.forEach((symbol) => {
+    if (symbolsCountMap.get(symbol) === 1) {
+      singleCharsArr.push(symbol);
+    }
+  });
+
+  // eslint-disable-next-line no-console
+  console.log(symbolsCountMap);
+  return singleCharsArr[0];
 }
 
 
@@ -202,9 +276,10 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  // How to solve it briefly?
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  // Briefly solution?
+  return `${isStartIncluded ? '[' : '('}${Math.min(a, b)}`
+    + `, ${Math.max(a, b)}${isEndIncluded ? ']' : ')'}`;
 }
 
 
@@ -220,8 +295,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('').reverse().join('');
 }
 
 
@@ -442,14 +517,6 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-  // Declare counters
-  // let XCountInRow = 0;
-  // let XCountInColumn = 0;
-  // let OCountInRow = 0;
-  // let OCountInColumn = 0;
-  // let XCountInDiag1 = 0;
-  // let YCountInDiag1 = 0;
-
   // Declare symbols
   const symbol = {
     x: 'X',
