@@ -681,7 +681,7 @@ function getCommonDirectoryPath(pathes) {
   const similarComponents = [];
   const pathesExploded = pathes.map((path) => path.replace(new RegExp(/\//, ''), '').split('/'));
   // eslint-disable-next-line no-console
-  console.log(pathesExploded);
+  // console.log(pathesExploded);
   const pathLengths = pathesExploded.map((path) => path.length);
   const maxLength = Math.max(...pathLengths);
   // eslint-disable-next-line prefer-const
@@ -692,7 +692,7 @@ function getCommonDirectoryPath(pathes) {
       if (j === 0) {
         similarComponents.push(pathesExploded[j][i]);
         // eslint-disable-next-line no-console
-        console.log(similarComponents);
+        // console.log(similarComponents);
       }
       if (similarComponents[i] !== pathesExploded[j][i]) {
         isSimilar = false;
@@ -704,7 +704,7 @@ function getCommonDirectoryPath(pathes) {
   const similarComponentsRawStr = similarComponents.join('/');
 
   // eslint-disable-next-line no-console
-  console.log(similarComponentsRawStr === '' ? '/' : `/${similarComponentsRawStr}/`);
+  // console.log(similarComponentsRawStr === '' ? '/' : `/${similarComponentsRawStr}/`);
 
   // return '/web/images/';
   return similarComponentsRawStr === '' ? '/' : `/${similarComponentsRawStr}/`;
